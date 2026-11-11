@@ -38,6 +38,13 @@ ALLOWED_PERMISSIONS = {
     "Bash(python salary_lookup.py:*)",
     "Bash(python3 salary_lookup.py:*)",
     "Bash(pdftotext:*)",
+    "Bash(python3 tools/diagnostic.py:*)",
+    "Bash(python3 tools/profil.py:*)",
+    "Bash(bash tools/installer.sh:*)",
+    "Bash(bash tools/mise_a_jour.sh:*)",
+    "Bash(lualatex:*)",
+    "Bash(xelatex:*)",
+    "Bash(kpsewhich:*)",
 }
 
 # Personal-data ignore rules that must never disappear from .gitignore.
