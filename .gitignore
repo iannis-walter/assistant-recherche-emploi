@@ -25,7 +25,7 @@ venv/
 
 # Personal data (never commit these)
 # The whole user profile, created by /setup from templates/profil/
-profil/
+/profil/
 salary_data.json
 job_scraper/seen_jobs.json
 job_scraper/*.md

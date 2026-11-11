@@ -46,11 +46,15 @@ def read(rel):
 class KitStructureTests(unittest.TestCase):
     def test_gitignore_ignores_profil(self):
         lines = {line.strip() for line in read(".gitignore").splitlines()}
-        self.assertIn("profil/", lines)
+        # Anchored to the root: a bare "profil/" would also ignore templates/profil/.
+        self.assertIn("/profil/", lines)
+        self.assertNotIn("profil/", lines)
 
     def test_templates_present(self):
+        tracked = set(tracked_files())
         for name in TEMPLATES:
-            self.assertTrue((ROOT / "templates" / "profil" / name).is_file(), name)
+            # Tracked by git, not just present on disk: the published repo must ship them.
+            self.assertIn(f"templates/profil/{name}", tracked, name)
         entete = lire_profil(ROOT / "templates" / "profil" / "profil.md")
         for champ in CHAMPS_OBLIGATOIRES:
             self.assertIn(champ, entete)
