@@ -1,5 +1,8 @@
 # /outcome - Record the Result of an Application
 
+> **Preflight (always first).** Lance `python3 tools/diagnostic.py --pour outcome --json`. Si un contrôle bloquant échoue (`bloquant` vrai et `ok` faux), explique-le en une phrase simple en français à partir de son `message`, propose son correctif (voir `.claude/commands/diagnostic.md`), puis arrête-toi.
+
+
 You are recording what happened to a job application: progress updates (interview invitations, stages completed, offers) and final resolutions (hired, rejected, no response). The data lands in two places the framework already reads but nothing systematically writes:
 
 - `job_search_tracker.csv` - the status column that `/scrape` and `/rank` use for dedup and exclusion

@@ -4,10 +4,13 @@ description: >
   Compares tracked job postings against the candidate profile to identify skill gaps and generate
   a prioritized learning plan with study resources. Triggers on: /upskill, upskill, skill gaps,
   what should I learn, learning plan
-allowed-tools: Read, Write, Glob, Grep, WebFetch, WebSearch
+allowed-tools: Read, Write, Glob, Grep, WebFetch, WebSearch, Bash(python3 tools/diagnostic.py *)
 ---
 
 # Upskill
+
+> **Preflight (always first).** Lance `python3 tools/diagnostic.py --pour upskill --json`. Si un contrôle bloquant échoue (`bloquant` vrai et `ok` faux), explique-le en une phrase simple en français à partir de son `message`, propose son correctif (voir `.claude/commands/diagnostic.md`), puis arrête-toi.
+
 
 ---
 

@@ -1,5 +1,8 @@
 # /expand - Competency Expansion from Documents and Online Presence
 
+> **Preflight (always first).** Lance `python3 tools/diagnostic.py --pour expand --json`. Si un contrôle bloquant échoue (`bloquant` vrai et `ok` faux), explique-le en une phrase simple en français à partir de son `message`, propose son correctif (voir `.claude/commands/diagnostic.md`), puis arrête-toi.
+
+
 You are enriching the candidate profile by discovering competencies hidden in documents and public online presence. This command is additive only — it never modifies existing profile content, only extends it.
 
 Follow these steps **exactly in order**. Do not skip steps.

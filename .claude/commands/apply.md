@@ -1,5 +1,8 @@
 # /apply - Drafter-Reviewer Job Application Workflow
 
+> **Preflight (always first).** Lance `python3 tools/diagnostic.py --pour apply --json`. Si un contrôle bloquant échoue (`bloquant` vrai et `ok` faux), explique-le en une phrase simple en français à partir de son `message`, propose son correctif (voir `.claude/commands/diagnostic.md`), puis arrête-toi.
+
+
 You are orchestrating a two-agent job application workflow. The job posting is provided below as `$ARGUMENTS` (either a URL or pasted text).
 
 Follow these steps **exactly in order**. Do not skip steps.
