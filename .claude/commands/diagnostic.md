@@ -28,7 +28,7 @@ For each check with a non-empty `correctif`, offer the matching fix (ask before 
 | `correctif` | What to do |
 |---|---|
 | `installer:<etape>` | Announce in one sentence what will happen and roughly how long it takes, then run `bash tools/installer.sh <etape>`. If it exits 3, a macOS window is waiting for the user: tell them to click *Installer* and wait, then run the same step again. |
-| `chemins` | Run `bash tools/installer.sh chemins`, then explain that the change takes effect in a **new conversation**: close this one and open a new one in the same folder. |
+| `chemins` | Run `bash tools/installer.sh chemins`, then explain that the Claude app only picks up the change when it restarts: she must **quit it completely** (menu *Claude → Quitter Claude*, or ⌘Q; closing the window is not enough), reopen it, and open a new conversation in the same folder. A new conversation alone is not enough. |
 | `setup` | Explain which information is missing (from `message`) and offer to run `/setup` (or `/setup --section <name>` if only one part is missing). |
 | `france_travail` | Optional, only if they want it: guide them step by step to create free API keys on https://francetravail.io (create an account, create an application, subscribe it to the « Offres d'emploi v2 » API), then write `FRANCETRAVAIL_CLIENT_ID=...` and `FRANCETRAVAIL_CLIENT_SECRET=...` into a `.env` file at the root of the folder (copy `.env.example` first). Never paste the keys back into the conversation summary. |
 

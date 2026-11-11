@@ -58,6 +58,17 @@ class AppleWindowAnnouncementTests(unittest.TestCase):
         section = text[text.index("## 3."):text.index("## 4.")]
         self.assertIn("Dock", section)
 
+    def test_installation_ends_by_restarting_the_app(self):
+        # The Claude app keeps the PATH it had at launch: tools installed while it was open
+        # are only found after quitting and reopening it (VM test, 2026-11-11).
+        text = (ROOT / "INSTALLATION.md").read_text(encoding="utf-8")
+        self.assertIn("⌘Q", text[text.index("## 7."):])
+
+    def test_path_fix_asks_to_restart_the_app(self):
+        text = (ROOT / ".claude" / "commands" / "diagnostic.md").read_text(encoding="utf-8")
+        ligne = next(l for l in text.splitlines() if l.startswith("| `chemins`"))
+        self.assertIn("⌘Q", ligne)
+
     def test_guide_tells_where_to_find_a_hidden_apple_window(self):
         text = (ROOT / "COMMENCER-ICI.md").read_text(encoding="utf-8")
         self.assertIn("Dock", text)

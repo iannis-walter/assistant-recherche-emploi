@@ -142,7 +142,9 @@ class DiagnosticTests(unittest.TestCase):
         self.assertIn("/setup", result.stdout)
 
 
-    def test_pour_apply_blocks_when_tex_off_path(self):
+    def test_pour_apply_accepts_tex_off_path(self):
+        # tools/compiler.sh finds TinyTeX itself; the Claude app keeps the PATH it had at
+        # launch, so an install done with the app open must not block /apply (VM test, 2026-11-11).
         tinytex = self.home / "Library" / "TinyTeX" / "bin" / "universal-darwin"
         stub(tinytex, "lualatex")
         stub(tinytex, "xelatex")
@@ -150,9 +152,16 @@ class DiagnosticTests(unittest.TestCase):
         self.profile()
         with mock.patch("tools.diagnostic.MACTEX_BIN", self.home / "pas-de-mactex"):
             checks = self.run_checks("apply")
-        self.assertFalse(checks["lualatex"].ok)
-        self.assertTrue(checks["lualatex"].bloquant)
-        self.assertEqual(checks["lualatex"].correctif, "chemins")
+        self.assertTrue(checks["lualatex"].ok)
+        self.assertTrue(checks["xelatex"].ok)
+        self.assertEqual(checks["lualatex"].correctif, "")
+
+    def test_pour_scrape_still_blocks_when_bun_off_path(self):
+        stub(self.home / ".bun" / "bin", "bun")
+        self.profile()
+        bun = self.run_checks("scrape")["bun"]
+        self.assertFalse(bun.ok)
+        self.assertEqual(bun.correctif, "chemins")
 
 
 if __name__ == "__main__":

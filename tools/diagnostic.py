@@ -8,7 +8,7 @@ Exit 0 when no blocking check fails, 1 otherwise. Messages are plain French for
 the user; `correctif` tells Claude which fix to offer:
     ""                -> nothing to do
     "installer:<step>" -> bash tools/installer.sh <step>
-    "chemins"         -> bash tools/installer.sh chemins, then a new conversation
+    "chemins"         -> bash tools/installer.sh chemins, then quit and reopen the Claude app
     "setup"           -> /setup
     "france_travail"  -> optional guided creation of the France Travail API keys
 """
@@ -76,10 +76,11 @@ def _trouver(nom: str, home: Path):
     return None, False
 
 
-def _outil(nom: str, home: Path, etape: str, strict: bool = False) -> Verif:
-    """strict: a command is about to use the tool, so off-PATH means blocked."""
+def _outil(nom: str, home: Path, etape: str, strict: bool = False, hors_path_ok: bool = False) -> Verif:
+    """strict: a command is about to use the tool, so off-PATH means blocked.
+    hors_path_ok: the kit's own wrapper finds the tool off PATH, so that is fine."""
     chemin, sur_path = _trouver(nom, home)
-    if chemin and sur_path:
+    if chemin and (sur_path or hors_path_ok):
         return Verif(nom, True, True, f"{_maj(NOMS[nom])} : installé.", "")
     if chemin:
         return Verif(nom, not strict, True, f"{_maj(NOMS[nom])} : installé mais pas encore accessible.", "chemins")
@@ -154,8 +155,10 @@ def verifier(racine: Path, home: Path, pour: Optional[str]) -> List[Verif]:
         "git": lambda: _git(home),
         "python": _python,
         "bun": lambda: _outil("bun", home, "bun", strict),
-        "lualatex": lambda: _outil("lualatex", home, "tinytex", strict),
-        "xelatex": lambda: _outil("xelatex", home, "tinytex", strict),
+        # Off-PATH is fine: tools/compiler.sh adds the TinyTeX folder itself, and the Claude app
+        # keeps the PATH it had at launch, so an install done with the app open is still usable.
+        "lualatex": lambda: _outil("lualatex", home, "tinytex", hors_path_ok=True),
+        "xelatex": lambda: _outil("xelatex", home, "tinytex", hors_path_ok=True),
         "paquets_tex": lambda: _paquets_tex(home),
         "profil": lambda: _profil(racine),
         "france_travail": lambda: _france_travail(racine),

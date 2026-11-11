@@ -4,6 +4,9 @@
      en français simple, écrites pour la personne qui utilise le kit (pas de jargon).
      /mise-a-jour affiche les sections plus récentes que la version installée. -->
 
+## 1.0.3 — 2026-11-11
+La préparation des CV et des lettres n'est plus bloquée juste après l'installation. Conseil : après une installation, quitte complètement l'app Claude (⌘Q) puis rouvre-la.
+
 ## 1.0.2 — 2026-11-11
 La fabrication des CV et lettres en PDF marche maintenant dès la première conversation après l'installation, sans avoir à quitter l'app Claude.
 

@@ -33,6 +33,7 @@ Tout se passe sur ton Mac, et tes informations restent sur ton ordinateur.
 - Claude installe ensuite les outils qui cherchent les offres et qui fabriquent les PDF (environ 10 minutes), puis vérifie que tout marche.
 - **Le kit ne te demande jamais ton mot de passe Mac.** Seule exception possible : la fenêtre officielle d'Apple qui installe les « outils de ligne de commande pour développeurs ». Pour toute autre demande de mot de passe, refuse et préviens la personne qui t'a donné le kit.
 - Ensuite, Claude te pose des questions pour créer ton profil (ton parcours, le métier que tu cherches, où, à quel salaire…). Tu peux glisser ton CV et ton export LinkedIn directement dans la conversation.
+- Une fois ton profil créé, **quitte complètement l'app Claude** (menu *Claude* → *Quitter Claude*, ou ⌘Q ; fermer la fenêtre ne suffit pas) puis rouvre-la : sans ça, les outils installés ne sont pas trouvés.
 
 <!-- capture : la fenêtre macOS « outils de ligne de commande » -->
 

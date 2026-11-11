@@ -81,7 +81,7 @@ Avant de commencer, rappelle-lui que le plus simple est de déposer son CV actue
 
 Quand `/setup` est terminé, dis-lui :
 
-> Tout est prêt ! À partir de ta prochaine conversation dans ce dossier, tape `/` pour voir toutes les commandes. Les plus utiles :
+> Tout est prêt ! Une dernière chose, importante : **quitte complètement l'app Claude** (menu *Claude* en haut à gauche → *Quitter Claude*, ou ⌘Q ; fermer la fenêtre ne suffit pas), puis rouvre-la. Sans ça, les outils qu'on vient d'installer ne seront pas trouvés. Ensuite, ouvre une nouvelle conversation dans ce dossier et tape `/` pour voir toutes les commandes. Les plus utiles :
 > - `/scrape` : chercher de nouvelles offres
 > - `/apply` suivi du lien d'une offre : l'analyser et préparer CV + lettre
 > - `/interview` : préparer un entretien
