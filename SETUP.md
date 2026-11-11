@@ -1,6 +1,8 @@
 # Setup Guide
 
-Step-by-step instructions for getting the AI Job Search framework running.
+> **Recommended route for non-technical users: [COMMENCER-ICI.md](COMMENCER-ICI.md)** — one sentence pasted into the Claude app installs everything (`INSTALLATION.md` + `tools/installer.sh`). This file documents the manual, developer route.
+
+Step-by-step instructions for getting the assistant running by hand.
 
 ## 1. Prerequisites
 
@@ -110,8 +112,8 @@ If `pdftotext` is missing, `/apply` skips the mechanical check with a warning an
 ## 2. Fork and clone
 
 ```bash
-git clone https://github.com/iannis-walter/ai-job-search-fr.git
-cd ai-job-search
+git clone https://github.com/iannis-walter/assistant-recherche-emploi.git
+cd assistant-recherche-emploi
 ```
 
 Or manually: fork on GitHub, then clone your fork.
@@ -161,7 +163,7 @@ Claude will offer three paths:
 - **Path B (single CV import):** Share one CV/resume by mentioning the file with `@` or pasting the text. Claude extracts it and asks follow-up questions for anything missing.
 - **Path C (interview mode):** Answer structured interview questions section by section.
 
-All three paths produce the same result: fully populated profile files.
+All three paths produce the same result: a fully populated, git-ignored `profil/` folder. Check it with `python3 tools/profil.py valider profil/profil.md`.
 
 ### What gets populated
 

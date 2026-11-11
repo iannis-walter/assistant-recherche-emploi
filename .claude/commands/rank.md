@@ -51,7 +51,7 @@ Each agent returns a JSON array, one object per job:
 {
   "key": "<the job's key in seen_jobs.json>",
   "status": "scored" | "expired",
-  "scores": { "technical": 0-100, "experience": 0-100, "behavioral": 0-100, "career": 0-100 },
+  "scores": { "skills": 0-100, "experience": 0-100, "behavioral": 0-100, "career": 0-100 },
   "location": "PASS" | "FAIL" | "FLAG",
   "deadline": "YYYY-MM-DD" | null,
   "strengths": ["1-3 bullets, grounded in the posting text"],
@@ -68,7 +68,7 @@ Scoring uses the dimension definitions from `04-job-evaluation.md` verbatim. The
 
 Back in the main context, for each scored job:
 
-1. Compute the overall score with the weighting from `04-job-evaluation.md` (Technical 30%, Experience 25%, Behavioral 15%, Career Alignment 30%; location is unweighted).
+1. Compute the overall score with the weighting from `04-job-evaluation.md` (Skills 30%, Experience 25%, Behavioral 15%, Career Alignment 30%; location is unweighted).
 2. Map to the framework's verdict bands (Strong Fit 75+, Good Fit 60-74, Moderate Fit 45-59, Weak Fit 30-44, Poor Fit <30).
 3. **Location veto:** `FAIL` (e.g. requires relocation) excludes the job from the shortlist no matter the score - list it separately with the reason. `FLAG` (e.g. heavy travel) stays in the ranking but carries a visible ⚠ marker for the user to judge.
 4. **Deadline urgency:** a deadline within 7 days gets a 🔥 marker and wins ties. A deadline that has already passed moves the job to `expired`.

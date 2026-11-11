@@ -49,17 +49,17 @@ site:welcometothejungle.com "[YOUR_ADJACENT_TITLE_1]" [YOUR_KEY_SKILL] [YOUR_CIT
 site:hellowork.com "[YOUR_ADJACENT_TITLE_2]" [YOUR_KEY_SKILL] [YOUR_CITY]
 ```
 
-### Priority 4: Broader Technical / Consulting
+### Priority 4: Élargissement
 
-Wider net for general technical roles.
+Wider net: neighbouring job titles and sectors where the same skills are valued.
 
 ```
-site:hellowork.com [YOUR_KEY_SKILL] développeur [YOUR_CITY]
-site:linkedin.com/jobs "[YOUR_KEY_SKILL] developer" [YOUR_CITY]
-site:apec.fr "consultant technique" [YOUR_DOMAIN] [YOUR_CITY]
+site:hellowork.com "[YOUR_ADJACENT_TITLE_1]" [YOUR_CITY]
+site:linkedin.com/jobs "[YOUR_KEY_SKILL]" [YOUR_CITY]
+site:apec.fr "[YOUR_ADJACENT_TITLE_2]" [YOUR_DOMAIN] [YOUR_CITY]
 ```
 
-Note: search in **both French and English** — French postings mix both freely ("développeur Python" and "Python developer" return different result sets).
+Note: search in **both French and English** — French postings mix both freely ("chargé de recrutement" and "recruiter" return different result sets).
 
 ## Location Filter
 

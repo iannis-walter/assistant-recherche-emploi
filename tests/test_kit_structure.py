@@ -83,6 +83,27 @@ class KitStructureTests(unittest.TestCase):
                 offenders.append(rel)
         self.assertEqual(offenders, [])
 
+    def test_neutral_wording(self):
+        banned = ("technical skills match", "programming languages", "ml/ai frameworks",
+                  "broader technical", "data scientist")
+        offenders = []
+        for rel in tracked_files():
+            if not (rel.startswith(".claude/") or rel.startswith("templates/")):
+                continue
+            text = read(rel).lower()
+            offenders += [f"{rel}: {b}" for b in banned if b in text]
+        self.assertEqual(offenders, [])
+
+    def test_commencer_ici_mentions_essentials(self):
+        text = read("COMMENCER-ICI.md")
+        for needle in (
+            "Pro",
+            "raw.githubusercontent.com/iannis-walter/assistant-recherche-emploi/main/INSTALLATION.md",
+            "/diagnostic",
+            "Enregistrer au format PDF",
+        ):
+            self.assertIn(needle, text)
+
 
 if __name__ == "__main__":
     unittest.main()

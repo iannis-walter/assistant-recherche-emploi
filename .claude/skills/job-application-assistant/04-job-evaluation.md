@@ -6,7 +6,7 @@
 
 Evaluate each job posting against these five dimensions:
 
-### 1. Technical Skills Match (0-100)
+### 1. Skills Match / Adéquation des compétences (0-100)
 How well do the required/preferred skills align with the candidate's capabilities?
 
 | Score | Meaning |
@@ -98,7 +98,7 @@ Present the evaluation as:
 
 | Dimension | Score | Notes |
 |-----------|-------|-------|
-| Technical Skills | XX/100 | [brief note] |
+| Skills | XX/100 | [brief note] |
 | Experience Match | XX/100 | [brief note] |
 | Behavioral Fit | XX/100 | [brief note] |
 | Location | PASS/FAIL | [brief note] |
@@ -126,7 +126,7 @@ Present the evaluation as:
 ```
 
 ## Weighting
-- Technical Skills: 30%
+- Skills: 30%
 - Experience Match: 25%
 - Behavioral Fit: 15%
 - Career Alignment: 30%

@@ -50,7 +50,7 @@ Expected output: `Output written on main_<company>.pdf (2 pages, ...)`. Any page
 \address{[YOUR_ADDRESS]}{}{}
 \phone[mobile]{[YOUR_PHONE]}
 \email{[YOUR_EMAIL]}
-\extrainfo{\href{[YOUR_LINKEDIN_URL]}{LinkedIn}, \href{[YOUR_GITHUB_URL]}{GitHub}}
+\extrainfo{\href{[YOUR_LINKEDIN_URL]}{LinkedIn}} % add a portfolio or GitHub link only if the profile has one
 
 \begin{document}
 \makecvtitle
@@ -235,7 +235,7 @@ Cut the lowest-total-score line first, regardless of which section it sits in.
 
 The section order varies by role type:
 
-**For technical / data science / ML roles:**
+**For hands-on roles where skills come first (technical, healthcare, trades, data, sales):**
 1. Profile statement / elevator pitch
 2. Core competencies / Skills
 3. Professional Experience (reverse chronological)

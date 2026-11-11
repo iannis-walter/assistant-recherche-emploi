@@ -254,7 +254,7 @@ Walk through each section conversationally. Ask questions naturally, not as a fo
 Ask about:
 - Full name
 - Location (city, country)
-- Phone, email, LinkedIn, GitHub
+- Phone, email, LinkedIn, and a website / portfolio / GitHub only if it matters in their profession
 - Languages spoken (with proficiency levels)
 - Current employment status
 - Family/commute constraints (if any)
@@ -276,12 +276,13 @@ For each role (most recent first):
 
 Also ask about independent projects, freelance work, or side projects.
 
-### Section 4: Technical Skills
-- Programming languages + proficiency level
-- ML/AI frameworks and tools
+### Section 4: Skills
+Ask for « les compétences clés, outils et logiciels de ton métier », with examples taken from **their** target profession (a recruiter: sourcing, structured interviews, ATS such as Taleo; a nurse: care techniques, patient-record software; an accountant: closing, payroll, Sage; a developer: languages and frameworks). Never assume a technical profile.
+- Key skills of their profession + proficiency level
+- Tools, software and equipment they use
 - Domain expertise
-- Software tools and platforms
-- Any other technical skills
+- Licences, certifications or authorisations specific to the job (e.g. CACES, driving licence, nursing diploma)
+- Any other skills
 
 ### Section 5: Publications & Awards (optional)
 - Peer-reviewed papers, conference presentations
@@ -318,16 +319,16 @@ For each reference:
 This section generates the search queries that power `/scrape`. Use the information from Sections 1, 4, and 7 to build targeted queries.
 
 Ask about:
-- **Role titles to search for:** "What job titles should I search for? For example: Data Scientist, ML Engineer, Geophysicist." Collect 3-8 specific titles.
+- **Role titles to search for:** "What job titles should I search for?" (give 2-3 examples from their own field, e.g. for HR: Chargée de recrutement, Chargée RH, Talent Acquisition) Collect 3-8 specific titles.
 - **Key skills as search terms:** "Which of your skills are most likely to appear in job postings?" Pick 3-5 that are distinctive and searchable.
 - **Target companies (optional):** "Are there specific companies you'd like to monitor for openings?"
 - **Geographic scope:** "Which cities or regions should I search in? How far are you willing to commute?" Use this to define the location filter tiers (ideal, acceptable, borderline, too far).
-- **Job portals:** "The framework includes tools for French job portals (France Travail, Welcome to the Jungle, APEC, HelloWork) plus LinkedIn. Are these the right ones for you, or do you use other sites?" Note: if the user is outside France, acknowledge that the built-in CLI tools are France-specific and suggest they can add their own portal integrations via /add-portal or rely on LinkedIn/Google site-searches.
+- **Job portals:** choose the relevant portals for their profession yourself and state your choice in one sentence, rather than asking them to know the sites. Welcome to the Jungle and freehire are mostly tech/startup; HelloWork, France Travail and LinkedIn are general; APEC is for cadre/executive roles. If a specialised job board exists for their profession (e.g. healthcare, hospitality, public sector), mention it and offer `/add-portal` to add it. Note: if the user is outside France, acknowledge that the built-in CLI tools are France-specific and suggest they can add their own portal integrations via /add-portal or rely on LinkedIn/Google site-searches.
 
 **Important:** Also suggest role types the user may not have considered, based on their skill profile. For example:
-- If they have strong Python + domain expertise: "Have you considered roles like 'Technical Consultant' or 'Solutions Engineer' in your domain?"
-- If they have ML + a specific industry: "Companies in adjacent industries also hire for these skills. Should I include searches for [adjacent sector]?"
-- If they have project management experience alongside technical skills: "Would you also want to search for 'Technical Project Manager' or 'Team Lead' roles?"
+- If they have strong expertise in one domain: "Have you considered advisory or training roles in that domain (consultant, trainer, coordinator)?"
+- If their skills are valued in other sectors: "Companies in adjacent industries also hire for these skills. Should I include searches for [adjacent sector]?"
+- If they have coordination or mentoring experience: "Would you also want to search for team lead or coordinator roles?"
 
 This proactive suggestion step helps users discover career paths they might not have considered.
 

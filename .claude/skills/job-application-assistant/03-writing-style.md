@@ -83,10 +83,10 @@ The cover letter is **not a CV repetition**. It should be forward-looking:
 
 ## Language for Different Role Types
 
-### Technical/ML roles
-- Lead with programming languages, ML frameworks, specific model architectures
-- Mention datasets, data volumes, pipeline complexity
-- Include independent projects
+### Hands-on / technical roles (IT, engineering, healthcare, trades, data)
+- Lead with the concrete tools, methods and techniques the posting names
+- Mention volumes, scale and complexity (patients, files, budgets, systems)
+- Include independent projects when they show the skill
 
 ### Domain-specific roles
 - Lead with domain expertise and specific methods
