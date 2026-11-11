@@ -12,7 +12,7 @@ There are three paths into setup. Step 0 picks the right one; all three converge
 
 ## Step 0: Prepare `profil/`, Welcome & Choose Path
 
-First, silently create the `profil/` folder if it is missing and copy into it every file of `templates/profil/` that is not already there (`profil.md`, `comportement.md`, `evaluation.md`, `accroches-cv.md`, `star.md`, `observations.md`, `recherche.md`). **Never overwrite a file that already exists in `profil/`** — that is the user's data.
+First, silently create the `profil/` folder if it is missing and copy into it every file of `templates/profil/` that is not already there (`profil.md`, `comportement.md`, `evaluation.md`, `accroches-cv.md`, `star.md`, `observations.md`, `recherche.md`, `modeles-actifs.md`). **Never overwrite a file that already exists in `profil/`** — that is the user's data.
 
 If `$ARGUMENTS` contains `--section <name>`, prepare `profil/` as described below, then skip directly to that section in Path C for an update-only flow, writing only to the matching `profil/` file. Do not run the path-selection prompt.
 

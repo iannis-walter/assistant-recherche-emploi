@@ -35,6 +35,7 @@ The rest of the profile lives next to it, read on demand:
 | `profil/observations.md` | Patterns observed in past applications |
 | `profil/recherche.md` | Job search strategy and queries for `/scrape` |
 | `profil/cv_base.tex` | Comprehensive base CV, source for every tailored CV |
+| `profil/modeles-actifs.md` | Custom CV / cover letter template activated with `/add-template` (empty = stock templates) |
 
 ## Repo Structure
 - `profil/` - everything personal (git-ignored, created by `/setup` from `templates/profil/`)

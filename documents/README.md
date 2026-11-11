@@ -88,8 +88,8 @@ Reference letters from former managers, supervisors, or collaborators.
 
 **What `/setup` extracts:**
 - Referee name, title, and organization
-- Specific quotes and assessments (added to the references section of `01-candidate-profile.md`)
-- Competency language used by referees (adds behavioral signal to `02-behavioral-profile.md`)
+- Specific quotes and assessments (added to the references section of `profil/profil.md`)
+- Competency language used by referees (adds behavioral signal to `profil/comportement.md`)
 
 **Naming:** Use the referee's name, e.g. `reference_ole_frandsen.pdf`.
 
@@ -113,11 +113,11 @@ applications/
 
 ### Files within each application folder
 
-**`job_posting.md`** — Paste the full job posting text here. Used by `/setup` to infer which skills and role types you have targeted, and to calibrate `04-job-evaluation.md`.
+**`job_posting.md`** — Paste the full job posting text here. Used by `/setup` to infer which skills and role types you have targeted, and to calibrate `profil/evaluation.md`.
 
-**`cover_letter.tex`** — The cover letter you actually submitted. Used to extract writing style patterns and structure for `06-cover-letter-templates.md`.
+**`cover_letter.tex`** — The cover letter you actually submitted. Used to extract writing style patterns and structure (saved in `profil/observations.md`).
 
-**`cv_draft.tex`** — The CV variant you submitted. Used to extract profile statement styles for `05-cv-templates.md`.
+**`cv_draft.tex`** — The CV variant you submitted. Used to extract profile statement styles (saved in `profil/accroches-cv.md`).
 
 **`outcome.md`** — Fill this in after the application resolves. Format:
 
@@ -147,7 +147,7 @@ Application folders may also contain **`interview_prep_<stage>.md`** files writt
 
 **What `/setup` learns from outcome.md:**
 - Which role types and companies have led to interviews (signals strong fit areas)
-- Which applications did not progress (informs the experience match calibration in `04-job-evaluation.md`)
+- Which applications did not progress (informs the experience match calibration in `profil/evaluation.md`)
 - Interview feedback, if you recorded it, can surface new STAR candidates
 
 ---

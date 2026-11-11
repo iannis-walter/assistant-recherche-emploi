@@ -25,7 +25,7 @@ When the user provides a job posting (URL or text), follow this workflow:
 - Ask the user if they want to proceed with an application
 
 ### Step 2: Tailor CV
-- Read the most relevant existing CV variant from `cv/` as a starting point
+- Start from `profil/cv_base.tex` (or the most relevant existing `cv/main_<company>.tex` variant)
 - Follow the guidelines in `05-cv-templates.md`
 - Create `cv/main_<company>.tex` with tailored content
 - Adjust: profile statement, skills section, experience bullet emphasis, section order
@@ -46,15 +46,15 @@ When the user provides a job posting (URL or text), follow this workflow:
 
 ## Reference Files
 
+The candidate's own data lives in `profil/` (see the table in `CLAUDE.md`): `profil/profil.md`, `comportement.md`, `evaluation.md`, `accroches-cv.md`, `star.md`, `observations.md`, `cv_base.tex`, and `modeles-actifs.md` if a custom template is active. The files below are the engine rules, in this directory:
+
 | File | Purpose |
 |------|---------|
-| `01-candidate-profile.md` | Education, experience, skills, publications, awards |
-| `02-behavioral-profile.md` | Behavioral assessment, strengths, ideal environments |
 | `03-writing-style.md` | Tone, structure, do's and don'ts |
 | `04-job-evaluation.md` | Scoring framework for job fit |
 | `05-cv-templates.md` | LaTeX CV structure and tailoring rules |
 | `06-cover-letter-templates.md` | LaTeX cover letter structure and tailoring rules |
-| `07-interview-prep.md` | STAR examples, tough questions, roleplay guidelines |
+| `07-interview-prep.md` | STAR format, tough questions, roleplay guidelines (the STAR examples themselves are in `profil/star.md`) |
 
 ---
 

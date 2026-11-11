@@ -16,6 +16,7 @@ TEMPLATES = (
     "star.md",
     "observations.md",
     "recherche.md",
+    "modeles-actifs.md",
 )
 OLD_PROFILE_PATHS = ("01-candidate-profile.md", "02-behavioral-profile.md", "search-queries.md")
 STALE_PATH_EXEMPT = {"NOTES-DE-VERSION.md"}
@@ -55,7 +56,6 @@ class KitStructureTests(unittest.TestCase):
             self.assertIn(champ, entete)
         self.assertEqual(entete["version_profil"], 1)
 
-    @unittest.expectedFailure  # removed in Task 5 once every command is rewired
     def test_no_stale_profile_paths(self):
         offenders = []
         for rel in tracked_files():
