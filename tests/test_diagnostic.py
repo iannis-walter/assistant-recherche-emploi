@@ -142,5 +142,18 @@ class DiagnosticTests(unittest.TestCase):
         self.assertIn("/setup", result.stdout)
 
 
+    def test_pour_apply_blocks_when_tex_off_path(self):
+        tinytex = self.home / "Library" / "TinyTeX" / "bin" / "universal-darwin"
+        stub(tinytex, "lualatex")
+        stub(tinytex, "xelatex")
+        stub(self.bin, "kpsewhich", KPSEWHICH)
+        self.profile()
+        with mock.patch("tools.diagnostic.MACTEX_BIN", self.home / "pas-de-mactex"):
+            checks = self.run_checks("apply")
+        self.assertFalse(checks["lualatex"].ok)
+        self.assertTrue(checks["lualatex"].bloquant)
+        self.assertEqual(checks["lualatex"].correctif, "chemins")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -25,6 +25,7 @@ bash tools/mise_a_jour.sh appliquer
 | `4` | The update cannot be applied automatically. Nothing was changed. Suggest contacting the person who gave them the kit. |
 | `5` | The server cannot be reached. Nothing was changed; try again later. |
 | `6` | The update is installed, but an install step needs attention: summarise the notes, then follow `.claude/commands/diagnostic.md`. |
+| `7` | Files created on this computer (listed in the message, often by `/add-portal` or `/add-template`) have the same name as files the update brings. Nothing was changed. Explain this simply, then offer to move those files into `profil/.sauvegardes/<date du jour>/` (keeping their folder structure) so the update can go through; after the update, compare them with the new official versions together and keep what she prefers. Never delete them. |
 
 ## Rules
 

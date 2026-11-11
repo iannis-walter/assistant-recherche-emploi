@@ -25,6 +25,14 @@ Joue le rôle de ton amie : n'utilise **que** `COMMENCER-ICI.md`, sans ouvrir le
 
 ## 3. Critères de réussite (document de conception, §7)
 
+Points à surveiller en particulier (repérés en revue) :
+- [ ] La fenêtre macOS « Claude souhaite accéder au dossier Documents » est bien annoncée avant d'apparaître.
+- [ ] Si tu cliques sur « toujours autoriser » dès la première demande, l'installation continue quand même (le dossier contient alors `.claude/settings.local.json`).
+- [ ] La fenêtre « outils de ligne de commande » d'Apple n'apparaît pas avant d'avoir été annoncée (Claude Code lance parfois git dès l'ouverture), et note si elle demande le mot de passe Mac.
+- [ ] Les étapes TinyTeX et modèles (plusieurs minutes) ne sont pas coupées au bout de 2 minutes.
+- [ ] Claude a bien suivi `INSTALLATION.md` à la lettre (fichier téléchargé avec curl, pas résumé).
+- [ ] Coupe le réseau pendant l'étape « Bun » : l'étape doit échouer avec un message clair, pas « réussir » à vide.
+
 - [ ] L'installation va jusqu'au `/setup` sans intervention technique.
 - [ ] Chaque fenêtre ou demande a été annoncée à l'avance (aucun « non » dans tes notes).
 - [ ] Aucune demande de mot de passe administrateur.
@@ -39,13 +47,15 @@ Joue le rôle de ton amie : n'utilise **que** `COMMENCER-ICI.md`, sans ouvrir le
 
 ## 5. Mise à jour
 
-1. Sur ton Mac, publie une version `1.0.1` factice : `VERSION` → `1.0.1`, une section `## 1.0.1 — AAAA-MM-JJ` dans `NOTES-DE-VERSION.md`, commit et push sur `main`.
+⚠️ Fais ce test **avant** d'envoyer le lien à ton amie, ou sur un fork de test : `/mise-a-jour` suit toujours `main`. Les versions ne font qu'**avancer** : ne reviens jamais en arrière, ni par `revert` ni par `push --force`, car `/mise-a-jour` afficherait de fausses notes et les copies installées pourraient être bloquées.
+
+1. Sur ton Mac, publie une version `1.0.1` : `VERSION` → `1.0.1`, une section `## 1.0.1 — AAAA-MM-JJ` en haut de `NOTES-DE-VERSION.md`, commit et push sur `main`.
 2. Dans la VM : `/mise-a-jour`.
 - [ ] La nouvelle version est annoncée, s'installe, et la note est résumée en une phrase.
 - [ ] Le dossier `profil/` est identique avant et après.
 3. Modifie à la main `CLAUDE.md` dans la VM, publie `1.0.2`, relance `/mise-a-jour`.
 - [ ] Claude explique le blocage et propose de mettre les modifications de côté, puis la mise à jour passe.
-4. Annule ensuite les versions factices sur ton Mac par un **nouveau** commit (jamais de `push --force`).
+4. Si les versions de test ont introduit des changements que tu ne veux pas garder, publie une version `1.0.3` qui les retire (nouveau commit, numéro plus grand, note « Nettoyage après les tests »).
 
 ## 6. Résilience
 

@@ -91,5 +91,17 @@ class MigrationTests(unittest.TestCase):
         self.assertEqual(lire_profil(self.chemin)["version_profil"], 2)
 
 
+class CorrectionsTests(unittest.TestCase):
+    def test_phone_with_leading_zero_stays_text(self):
+        entete = lire_entete("---\ntelephone: 0612345678\nrayon_km: 30\n---\n")
+        self.assertEqual(entete["telephone"], "0612345678")
+        self.assertEqual(entete["rayon_km"], 30)
+
+    def test_template_requires_cv_pages_choice(self):
+        template = Path(__file__).resolve().parent.parent / "templates" / "profil" / "profil.md"
+        messages = valider_entete(lire_profil(template))
+        self.assertTrue(any("cv_pages" in m for m in messages))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -13,7 +13,7 @@ All CVs use the moderncv LaTeX package with the "banking" style and "blue" color
 ### Compile command
 
 ```bash
-cd cv && lualatex -interaction=nonstopmode main_<company>.tex
+bash tools/compiler.sh cv/main_<company>.tex   # lualatex, -no-shell-escape
 ```
 
 Expected output: `Output written on main_<company>.pdf (N pages, ...)` where N is `cv_pages` (from the header of `profil/profil.md`: 1 or 2). Any other page count is a failure that must be fixed before presenting to the user.
@@ -145,7 +145,7 @@ If there is a gap in your employment history:
 
 After writing the CV and before presenting to the user, always compile and visually inspect the PDF. Iterate until the layout is clean. Workflow:
 
-1. Run `lualatex -interaction=nonstopmode main_<company>.tex`
+1. Run `bash tools/compiler.sh cv/main_<company>.tex`
 2. Check the output page count: must equal `cv_pages` (from the header of `profil/profil.md`: 1 or 2)
 3. Read the PDF via the Read tool and visually inspect both pages
 4. Check for **orphaned entries**: a `\cventry` title line must never sit alone at the bottom of page 1 with its bullets on page 2

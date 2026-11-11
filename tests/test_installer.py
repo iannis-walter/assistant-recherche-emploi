@@ -105,5 +105,35 @@ class InstallerTests(unittest.TestCase):
         self.assertIn("bun=ok", result.stdout)
 
 
+    def run_real(self, *args):
+        env = {"PATH": f"{self.bin}:/usr/bin:/bin", "HOME": str(self.home),
+               "KIT_MACTEX_BIN": str(Path(self._tmp.name) / "pas-de-mactex")}
+        return subprocess.run(["bash", str(self.kit / "tools" / "installer.sh"), *args],
+                              capture_output=True, text=True, env=env, cwd=str(self.kit))
+
+    def test_bun_download_failure_fails(self):
+        stub(self.bin, "curl", "#!/bin/sh\necho 'curl: (6) Could not resolve host' >&2\nexit 6\n")
+        result = self.run_real("bun")
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertNotIn("curl:", result.stderr)
+
+    def test_bun_still_missing_after_install_fails(self):
+        stub(self.bin, "curl", '#!/bin/sh\nwhile [ $# -gt 0 ]; do [ "$1" = "-o" ] && { shift; echo "exit 0" > "$1"; }; shift; done\nexit 0\n')
+        result = self.run_real("bun")
+        self.assertEqual(result.returncode, 1, result.stderr)
+
+    def test_tinytex_offline_fails_cleanly(self):
+        stub(self.bin, "curl", "#!/bin/sh\nexit 6\n")
+        result = self.run_real("tinytex")
+        self.assertEqual(result.returncode, 1, result.stderr)
+        self.assertNotIn("No such file", result.stderr)
+
+    def test_broken_tex_is_reported_missing(self):
+        stub(self.bin, "lualatex", "#!/bin/sh\nexit 1\n")
+        stub(self.bin, "xelatex", "#!/bin/sh\nexit 1\n")
+        result = self.run_real("etat")
+        self.assertIn("tinytex=manquant", result.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()

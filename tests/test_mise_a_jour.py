@@ -132,5 +132,19 @@ class MiseAJourTests(unittest.TestCase):
         self.assertIn("Nouvelle commande de test.", result.stdout)
 
 
+    def test_untracked_collision_is_reported(self):
+        def add_file(repo):
+            (repo / "extra").mkdir()
+            (repo / "extra" / "nouveau.md").write_text("officiel\n", encoding="utf-8")
+            git(repo, "add", "extra/nouveau.md")
+        self.release(extra=add_file)
+        (self.user / "extra").mkdir()
+        (self.user / "extra" / "nouveau.md").write_text("à moi\n", encoding="utf-8")
+        result = self.maj("appliquer")
+        self.assertEqual(result.returncode, 7, result.stdout + result.stderr)
+        self.assertIn("extra/nouveau.md", result.stderr)
+        self.assertEqual((self.user / "extra" / "nouveau.md").read_text(encoding="utf-8"), "à moi\n")
+
+
 if __name__ == "__main__":
     unittest.main()

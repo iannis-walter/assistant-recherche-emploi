@@ -16,7 +16,7 @@ ETAPE="${1:-}"
 
 RACINE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TINYTEX_BIN="$HOME/Library/TinyTeX/bin/universal-darwin"
-MACTEX_BIN="/Library/TeX/texbin"
+MACTEX_BIN="${KIT_MACTEX_BIN:-/Library/TeX/texbin}"
 BUN_BIN="$HOME/.bun/bin"
 MARQUEUR_DEBUT="# >>> assistant-recherche-emploi >>>"
 MARQUEUR_FIN="# <<< assistant-recherche-emploi <<<"
@@ -44,7 +44,8 @@ outils_apple_ok() {
   fi
 }
 bun_ok() { command -v bun >/dev/null 2>&1; }
-tex_ok() { command -v lualatex >/dev/null 2>&1 && command -v xelatex >/dev/null 2>&1; }
+# Found AND able to start: a TinyTeX killed mid-install leaves binaries that fail.
+tex_ok() { lualatex --version >/dev/null 2>&1 && xelatex --version >/dev/null 2>&1; }
 paquets_tex_ok() {
   command -v kpsewhich >/dev/null 2>&1 || return 1
   local n
@@ -86,19 +87,29 @@ etape_outils_apple() {
 etape_bun() {
   if bun_ok; then dire "Outil de recherche d'offres (Bun) : déjà installé."; return 0; fi
   dire "Installation de l'outil de recherche d'offres (Bun), environ 1 minute…"
-  executer bash -c 'curl -fsSL https://bun.sh/install | bash'
+  local tmp
+  tmp="$(mktemp -d)"
+  executer curl -fsSL https://bun.sh/install -o "$tmp/install-bun.sh" 2>/dev/null \
+    || { dire "Je n'arrive pas à télécharger l'outil de recherche d'offres. Vérifie la connexion internet, puis relance."; return 1; }
+  executer bash "$tmp/install-bun.sh" >/dev/null 2>&1 \
+    || { dire "L'installation de l'outil de recherche d'offres a échoué. Relance l'installation ; si ça recommence, tape /diagnostic."; return 1; }
+  [ "$SIM" = 1 ] && return 0
+  bun_ok || { dire "L'outil de recherche d'offres n'est toujours pas disponible après l'installation. Relance l'installation."; return 1; }
+  dire "Outil de recherche d'offres installé."
 }
 
 etape_tinytex() {
   if tex_ok; then dire "Outil de fabrication des CV et lettres : déjà installé."; return 0; fi
-  if [ -d "$HOME/Library/TinyTeX" ] && [ "$SIM" = 0 ]; then
-    dire "Un dossier TinyTeX existe déjà mais semble incomplet : je le réinstalle."
-  fi
   dire "Installation de l'outil qui fabrique les CV et les lettres (TinyTeX), environ 5 minutes…"
   local tmp
   tmp="$(mktemp -d)"
-  executer curl -fsSL https://yihui.org/tinytex/install-bin-unix.sh -o "$tmp/install-tinytex.sh"
-  executer sh "$tmp/install-tinytex.sh" "$tmp" --no-path
+  executer curl -fsSL https://yihui.org/tinytex/install-bin-unix.sh -o "$tmp/install-tinytex.sh" 2>/dev/null \
+    || { dire "Je n'arrive pas à télécharger l'outil de fabrication des CV. Vérifie la connexion internet, puis relance."; return 1; }
+  executer sh "$tmp/install-tinytex.sh" "$tmp" --no-path >/dev/null 2>&1 \
+    || { dire "L'installation de l'outil de fabrication des CV a échoué ou a été interrompue. Relance-la : elle repart proprement."; return 1; }
+  [ "$SIM" = 1 ] && return 0
+  tex_ok || { dire "L'outil de fabrication des CV ne démarre pas après l'installation. Relance l'installation."; return 1; }
+  dire "Outil de fabrication des CV et lettres installé."
 }
 
 etape_paquets_tex() {
@@ -108,7 +119,11 @@ etape_paquets_tex() {
     return 1
   fi
   dire "Installation des modèles de CV et de lettre, environ 2 minutes…"
-  executer tlmgr install "${PAQUETS_TEX[@]}"
+  executer tlmgr install "${PAQUETS_TEX[@]}" >/dev/null 2>&1 \
+    || { dire "L'ajout des modèles de CV et de lettre a échoué (connexion internet ?). Relance l'installation."; return 1; }
+  [ "$SIM" = 1 ] && return 0
+  paquets_tex_ok || { dire "Il manque encore des modèles de CV ou de lettre après l'installation. Relance l'installation."; return 1; }
+  dire "Modèles de CV et de lettre installés."
 }
 
 etape_chemins() {
@@ -139,9 +154,12 @@ etape_portails() {
     if [ "$SIM" = 1 ]; then
       printf 'EXEC: (cd %s && bun install)\n' "$cli"
     else
-      (cd "$cli" && bun install --silent)
+      (cd "$cli" && bun install --silent >/dev/null 2>&1) \
+        || { dire "La préparation d'un outil de site d'emploi a échoué (connexion internet ?). Relance l'installation."; return 1; }
     fi
   done
+  [ "$SIM" = 1 ] && return 0
+  portails_ok || { dire "Certains outils de sites d'emploi ne sont pas prêts. Relance l'installation."; return 1; }
 }
 
 etape_verif() {

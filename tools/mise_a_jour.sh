@@ -10,7 +10,7 @@
 #
 # Exit codes: 0 ok, 2 local changes in the way, 4 history diverged,
 # 5 cannot reach the server, 6 updated but an install step needs attention,
-# 1 other error. Messages for the user are in French, on stderr.
+# 7 files created on this computer collide with files the update adds, 1 other error. Messages for the user are in French, on stderr.
 set -euo pipefail
 
 # The update may rewrite this very file; bash reads scripts incrementally, so
@@ -69,7 +69,13 @@ appliquer() {
   fi
   local ancienne
   ancienne="$(version_locale)"
-  if ! git merge --quiet --ff-only "origin/$BRANCHE" >/dev/null 2>&1; then
+  local sortie
+  if ! sortie="$(LC_ALL=C git merge --ff-only "origin/$BRANCHE" 2>&1)"; then
+    if printf '%s' "$sortie" | grep -q "untracked working tree files would be overwritten"; then
+      dire "La mise à jour apporte des fichiers qui existent déjà sur cet ordinateur (créés ici, par exemple avec /add-portal ou /add-template). Rien n'a été modifié. Fichiers concernés :"
+      printf '%s\n' "$sortie" | awk '/would be overwritten/ {on=1; next} /^Please move|^Aborting/ {on=0} on && NF {print "  - " $1}' >&2
+      exit 7
+    fi
     dire "La mise à jour ne peut pas s'appliquer automatiquement (l'historique a divergé). Rien n'a été modifié. Contacte la personne qui t'a donné le kit."
     exit 4
   fi

@@ -191,9 +191,11 @@ After all edits are applied, the two files on disk are the final drafts.
 ### 5a. Compile
 
 ```bash
-cd cv && lualatex -interaction=nonstopmode main_<company>.tex
-cd ../cover_letters && xelatex -interaction=nonstopmode cover_<company>_<role>.tex
+bash tools/compiler.sh cv/main_<company>.tex
+bash tools/compiler.sh cover_letters/cover_<company>_<role>.tex
 ```
+
+Always compile through `tools/compiler.sh` (pre-approved, runs the right engine with `-no-shell-escape` so no `.tex` file can execute commands). Never call `lualatex`/`xelatex` directly, and never add `--shell-escape`.
 
 - CV uses **lualatex** — pdflatex fails on modern MiKTeX with fontawesome5 font-expansion errors. lualatex handles the same sources cleanly.
 - Cover letter uses **xelatex** — cover.cls requires fontspec.

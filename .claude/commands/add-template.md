@@ -1,5 +1,8 @@
 # /add-template - Register a Custom CV or Cover Letter Template
 
+> **Preflight (always first).** Lance `python3 tools/diagnostic.py --pour apply --json`. Si un contrôle bloquant échoue (`bloquant` vrai et `ok` faux), explique-le en une phrase simple en français à partir de son `message`, propose son correctif (voir `.claude/commands/diagnostic.md`), puis arrête-toi.
+
+
 You are helping the user register their own LaTeX template with the AI Job Search framework. The framework ships with moderncv (banking style) for CVs and a custom `cover.cls` for cover letters. This command lets the user swap in their own template: store the template files, capture usage instructions (compile engine, fonts, style rules, page limits), verify the template compiles, and wire it into the `/apply` workflow so every future application uses it.
 
 `$ARGUMENTS` may contain a subcommand, a file path, or nothing.

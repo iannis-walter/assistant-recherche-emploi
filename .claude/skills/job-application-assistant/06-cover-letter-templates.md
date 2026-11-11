@@ -11,7 +11,7 @@ Cover letters use a custom LaTeX document class (`cover.cls`) with Lato/Raleway 
 ### Compile command
 
 ```bash
-cd cover_letters && xelatex -interaction=nonstopmode cover_<company>_<role>.tex
+bash tools/compiler.sh cover_letters/cover_<company>_<role>.tex   # xelatex, -no-shell-escape
 ```
 
 Expected output: `Output written on cover_<company>_<role>.pdf (1 page, ...)`. Any page count other than 1 is a failure that must be fixed before presenting to the user.
@@ -20,7 +20,7 @@ Expected output: `Output written on cover_<company>_<role>.pdf (1 page, ...)`. A
 
 After writing the cover letter and before presenting to the user, always compile and visually inspect the PDF. Iterate until the layout is clean:
 
-1. Run `xelatex -interaction=nonstopmode cover_<company>_<role>.tex`
+1. Run `bash tools/compiler.sh cover_letters/cover_<company>_<role>.tex`
 2. Confirm page count is exactly 1 and compile succeeded
 3. Read the PDF via the Read tool and visually check: signature fits at the bottom, no text cut off, bullet font matches body
 

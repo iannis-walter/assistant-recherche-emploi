@@ -18,20 +18,20 @@ Tout se passe sur ton Mac, et tes informations restent sur ton ordinateur.
 
 1. **Installe l'app Claude pour Mac** depuis https://claude.ai/download, ouvre-la et connecte-toi.
 2. Dans le Finder, **crée un dossier vide** : *Documents* → nouveau dossier → nomme-le `Recherche emploi`.
-3. Dans l'app Claude, ouvre l'onglet **Code**, puis choisis ce dossier `Recherche emploi` comme dossier de travail. Si l'app te demande si tu fais confiance à ce dossier, réponds oui.
+3. Dans l'app Claude, ouvre l'onglet **Code**, puis choisis ce dossier `Recherche emploi` comme dossier de travail. Si l'app te demande si tu fais confiance à ce dossier, réponds oui. Si macOS demande si Claude peut accéder au dossier Documents, clique sur *Autoriser*.
 
 <!-- capture : onglet Code et choix du dossier -->
 
 4. **Copie-colle exactement cette phrase** dans la conversation, puis envoie :
 
-   > Installe l'assistant de recherche d'emploi : lis https://raw.githubusercontent.com/iannis-walter/assistant-recherche-emploi/main/INSTALLATION.md et suis ces instructions dans ce dossier.
+   > Installe l'assistant de recherche d'emploi : télécharge avec curl le fichier https://raw.githubusercontent.com/iannis-walter/assistant-recherche-emploi/main/INSTALLATION.md dans un fichier temporaire, lis-le en entier et suis exactement ses instructions dans ce dossier.
 
 ### Ce qui va se passer
 
 - Claude va te demander **plusieurs fois l'autorisation** de lancer des commandes : clique sur *Autoriser*. C'est normal.
 - Une **fenêtre macOS** peut s'ouvrir pour proposer d'installer des « outils de ligne de commande pour développeurs » : clique sur *Installer* et accepte. Ça prend 5 à 10 minutes. Claude t'attend.
 - Claude installe ensuite les outils qui cherchent les offres et qui fabriquent les PDF (environ 10 minutes), puis vérifie que tout marche.
-- **On ne te demande jamais ton mot de passe Mac.** Si une fenêtre le demande, refuse et préviens la personne qui t'a donné le kit.
+- **Le kit ne te demande jamais ton mot de passe Mac.** Seule exception possible : la fenêtre officielle d'Apple qui installe les « outils de ligne de commande pour développeurs ». Pour toute autre demande de mot de passe, refuse et préviens la personne qui t'a donné le kit.
 - Ensuite, Claude te pose des questions pour créer ton profil (ton parcours, le métier que tu cherches, où, à quel salaire…). Tu peux glisser ton CV et ton export LinkedIn directement dans la conversation.
 
 <!-- capture : la fenêtre macOS « outils de ligne de commande » -->

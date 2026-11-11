@@ -6,7 +6,8 @@ the standard library on the Python 3.9 shipped with Apple's Command Line Tools:
 
     ---
     cle: valeur          -> string (surrounding quotes stripped)
-    cle: 35              -> int
+    cle: 35              -> int (only for version_profil, rayon_km, cv_pages and the salary;
+                            every other field stays text, so 0612345678 keeps its 0)
     cle: null            -> None
     cle: [a, b, c]       -> list of strings (no nesting, no commas inside items)
     ---
@@ -58,11 +59,11 @@ ETAPES_MIGRATION: Dict[int, Callable[[str], str]] = {}
 _LIGNE = re.compile(r"^([a-z_]+):\s*(.*)$")
 
 
-def _valeur(brute: str):
+def _valeur(brute: str, cle: str = ""):
     brute = brute.strip()
     if brute == "null":
         return None
-    if re.fullmatch(r"-?\d+", brute):
+    if cle in CHAMPS_ENTIERS + CHAMPS_NULLABLES and re.fullmatch(r"-?\d+", brute):
         return int(brute)
     if brute.startswith("[") and brute.endswith("]"):
         interieur = brute[1:-1].strip()
@@ -97,7 +98,7 @@ def lire_entete(texte: str) -> dict:
         m = _LIGNE.match(ligne.strip())
         if not m:
             raise ValueError(f"ligne d'en-tête illisible : {ligne.strip()!r}")
-        entete[m.group(1)] = _valeur(m.group(2))
+        entete[m.group(1)] = _valeur(m.group(2), m.group(1))
     return entete
 
 

@@ -42,6 +42,9 @@ linkedin_Profile.pdf
 .DS_Store
 Thumbs.db
 
+# Claude app: per-folder permission answers ("always allow")
+.claude/settings.local.json
+
 # Editor
 .vscode/
 .idea/

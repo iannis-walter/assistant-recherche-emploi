@@ -1,5 +1,8 @@
 # /add-portal - Generate a Job-Portal Search Skill for Your Local Market
 
+> **Preflight (always first).** Lance `python3 tools/diagnostic.py --pour scrape --json`. Si un contrôle bloquant échoue (`bloquant` vrai et `ok` faux), explique-le en une phrase simple en français à partir de son `message`, propose son correctif (voir `.claude/commands/diagnostic.md`), puis arrête-toi.
+
+
 You are helping the user build a job-portal search skill for a job board in their market. The repo ships worked examples of the pattern (four French portals — France Travail, Welcome to the Jungle, APEC, HelloWork — plus the country-agnostic `linkedin-search`), and the README invites users elsewhere to build equivalents — this command turns that invitation into a guided workflow: investigate the portal, scaffold the skill from the canonical structure, and test-run a live query before registering anything.
 
 The generator is **country-agnostic**: it works for any portal in any market and language. The skills it produces are typically market-specific and live in the user's fork (per repo policy, country-specific portal skills are not merged upstream — the generator is the upstream feature, its output is yours).

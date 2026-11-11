@@ -19,7 +19,7 @@ rayon_km: ""
 teletravail: ""
 salaire_plancher_brut_annuel: null
 criteres_eliminatoires: []
-cv_pages: 2
+cv_pages: ""
 ---
 
 # Candidate Profile

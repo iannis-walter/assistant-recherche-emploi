@@ -53,12 +53,15 @@ def _maj(texte: str) -> str:
     return texte[:1].upper() + texte[1:]
 
 
+MACTEX_BIN = Path("/Library/TeX/texbin")
+
+
 def _hors_path(home: Path, nom: str) -> List[Path]:
     if nom == "bun":
         return [home / ".bun" / "bin" / "bun"]
     return [
         home / "Library" / "TinyTeX" / "bin" / "universal-darwin" / nom,
-        Path("/Library/TeX/texbin") / nom,
+        MACTEX_BIN / nom,
     ]
 
 
@@ -73,12 +76,13 @@ def _trouver(nom: str, home: Path):
     return None, False
 
 
-def _outil(nom: str, home: Path, etape: str) -> Verif:
+def _outil(nom: str, home: Path, etape: str, strict: bool = False) -> Verif:
+    """strict: a command is about to use the tool, so off-PATH means blocked."""
     chemin, sur_path = _trouver(nom, home)
     if chemin and sur_path:
         return Verif(nom, True, True, f"{_maj(NOMS[nom])} : installé.", "")
     if chemin:
-        return Verif(nom, True, True, f"{_maj(NOMS[nom])} : installé mais pas encore accessible.", "chemins")
+        return Verif(nom, not strict, True, f"{_maj(NOMS[nom])} : installé mais pas encore accessible.", "chemins")
     return Verif(nom, False, True, f"{_maj(NOMS[nom])} : pas installé.", f"installer:{etape}")
 
 
@@ -145,12 +149,13 @@ def verifier(racine: Path, home: Path, pour: Optional[str]) -> List[Verif]:
         ids = TOUS
     else:
         ids = REQUIS.get(pour, ("profil",))
+    strict = pour is not None
     fabriques = {
         "git": lambda: _git(home),
         "python": _python,
-        "bun": lambda: _outil("bun", home, "bun"),
-        "lualatex": lambda: _outil("lualatex", home, "tinytex"),
-        "xelatex": lambda: _outil("xelatex", home, "tinytex"),
+        "bun": lambda: _outil("bun", home, "bun", strict),
+        "lualatex": lambda: _outil("lualatex", home, "tinytex", strict),
+        "xelatex": lambda: _outil("xelatex", home, "tinytex", strict),
         "paquets_tex": lambda: _paquets_tex(home),
         "profil": lambda: _profil(racine),
         "france_travail": lambda: _france_travail(racine),

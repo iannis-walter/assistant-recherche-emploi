@@ -42,8 +42,7 @@ ALLOWED_PERMISSIONS = {
     "Bash(python3 tools/profil.py:*)",
     "Bash(bash tools/installer.sh:*)",
     "Bash(bash tools/mise_a_jour.sh:*)",
-    "Bash(lualatex:*)",
-    "Bash(xelatex:*)",
+    "Bash(bash tools/compiler.sh:*)",
     "Bash(kpsewhich:*)",
 }
 

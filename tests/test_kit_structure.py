@@ -119,8 +119,36 @@ class KitStructureTests(unittest.TestCase):
             "raw.githubusercontent.com/iannis-walter/assistant-recherche-emploi/main/INSTALLATION.md",
             "/diagnostic",
             "Enregistrer au format PDF",
+            "curl",
         ):
             self.assertIn(needle, text)
+
+
+    def test_every_command_has_preflight(self):
+        exempt = {"setup.md", "reset.md", "diagnostic.md", "mise-a-jour.md"}
+        missing = [p.name for p in (ROOT / ".claude" / "commands").glob("*.md")
+                   if p.name not in exempt and "**Preflight (always first).**" not in p.read_text(encoding="utf-8")]
+        self.assertEqual(missing, [])
+
+    def test_settings_compile_through_wrapper_only(self):
+        settings = read(".claude/settings.json")
+        self.assertNotIn("Bash(lualatex", settings)
+        self.assertNotIn("Bash(xelatex", settings)
+        self.assertIn("Bash(bash tools/compiler.sh:*)", settings)
+
+    def test_guides_announce_documents_access_prompt(self):
+        for rel in ("INSTALLATION.md", "COMMENCER-ICI.md"):
+            self.assertIn("accéder au dossier Documents", read(rel), rel)
+
+    def test_installation_runs_long_steps_without_default_timeout(self):
+        text = read("INSTALLATION.md")
+        self.assertIn("600000", text)
+        self.assertIn("installer.sh etat", text)
+
+    def test_vm_doc_moves_versions_forward_only(self):
+        text = read("docs/test-vm.md")
+        self.assertNotIn("Annule", text)
+        self.assertIn("1.0.3", text)
 
 
 if __name__ == "__main__":
