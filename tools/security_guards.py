@@ -42,6 +42,7 @@ ALLOWED_PERMISSIONS = {
 
 # Personal-data ignore rules that must never disappear from .gitignore.
 REQUIRED_IGNORE_RULES = [
+    "profil/",
     "salary_data.json",
     "job_scraper/seen_jobs.json",
     "cv/main_*.tex",
