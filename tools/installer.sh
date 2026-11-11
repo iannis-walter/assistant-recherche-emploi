@@ -20,8 +20,8 @@ MACTEX_BIN="${KIT_MACTEX_BIN:-/Library/TeX/texbin}"
 BUN_BIN="$HOME/.bun/bin"
 MARQUEUR_DEBUT="# >>> assistant-recherche-emploi >>>"
 MARQUEUR_FIN="# <<< assistant-recherche-emploi <<<"
-PAQUETS_TEX=(moderncv fontawesome5 fontawesome6 academicons import luatexbase pgf titlesec textpos xltxtra xunicode cite realscripts)
-FICHIERS_TEX=(moderncv.cls fontawesome5.sty academicons.sty titlesec.sty textpos.sty xltxtra.sty)
+PAQUETS_TEX=(moderncv fontawesome5 fontawesome6 academicons import luatexbase pgf titlesec textpos xltxtra xunicode cite realscripts needspace)
+FICHIERS_TEX=(moderncv.cls fontawesome5.sty academicons.sty titlesec.sty textpos.sty xltxtra.sty needspace.sty)
 
 # Tools installed by earlier steps of this same run must be found by later ones.
 export PATH="$BUN_BIN:$TINYTEX_BIN:$PATH:$MACTEX_BIN"

@@ -43,6 +43,22 @@ def read(rel):
     return (ROOT / rel).read_bytes().decode("utf-8", errors="replace")
 
 
+class VmFindingsTests(unittest.TestCase):
+    """Findings of the macOS VM acceptance test (2026-11-11)."""
+
+    def test_recommended_tex_packages_are_installed(self):
+        # apply.md tells Claude to add \usepackage{needspace}; it was missing in the VM.
+        installer = read("tools/installer.sh")
+        self.assertRegex(installer, r"PAQUETS_TEX=\([^)]*\bneedspace\b")
+        self.assertRegex(installer, r"FICHIERS_TEX=\([^)]*\bneedspace\.sty\b")
+        self.assertIn('"needspace.sty"', read("tools/diagnostic.py"))
+
+    def test_claude_always_uses_tu_with_the_user(self):
+        # /apply switched to "vous" mid-way; the rest of the kit says "tu".
+        rules = read("CLAUDE.md").split("## How to talk to the user (always)")[1].split("\n## ")[0]
+        self.assertIn("Tutoie", rules)
+
+
 class KitStructureTests(unittest.TestCase):
     def test_gitignore_ignores_profil(self):
         lines = {line.strip() for line in read(".gitignore").splitlines()}

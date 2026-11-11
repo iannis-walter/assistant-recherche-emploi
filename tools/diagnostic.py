@@ -40,7 +40,8 @@ REQUIS = {
     "scrape": ("bun", "profil"),
     "apply": ("lualatex", "xelatex", "paquets_tex", "profil"),
 }
-PAQUETS_TEX = ("moderncv.cls", "fontawesome5.sty", "academicons.sty", "titlesec.sty", "textpos.sty", "xltxtra.sty")
+PAQUETS_TEX = ("moderncv.cls", "fontawesome5.sty", "academicons.sty", "titlesec.sty", "textpos.sty", "xltxtra.sty",
+               "needspace.sty")
 NOMS = {
     "git": "les outils Apple pour développeurs (git)",
     "bun": "l'outil de recherche d'offres (Bun)",
