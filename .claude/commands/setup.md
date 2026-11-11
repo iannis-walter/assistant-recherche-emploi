@@ -1,14 +1,20 @@
 # /setup - Profile Onboarding
 
-You are running the onboarding setup for the AI Job Search framework. Your goal is to collect the user's professional information and populate all profile files so the `/apply` workflow works out of the box.
+You are running the onboarding setup for the job search assistant. Your goal is to collect the user's professional information and populate their profile in `profil/` so the `/apply` workflow works out of the box.
+
+**Talk to the user in plain, friendly French throughout** (the instructions below are in English for maintainers; the quoted messages are templates to say in French). The user may not be technical: never mention Markdown, LaTeX, git or file formats unless they ask.
+
+**Where things go:** everything personal is written under `profil/` (git-ignored). Never write personal data into tracked engine files (`CLAUDE.md`, `.claude/`, `cv/main_example.tex`, `templates/`): that would block future updates.
 
 There are three paths into setup. Step 0 picks the right one; all three converge on Step 3 (file generation) and Step 4 (confirmation).
 
 ---
 
-## Step 0: Welcome & Choose Path
+## Step 0: Prepare `profil/`, Welcome & Choose Path
 
-If `$ARGUMENTS` contains `--section <name>`, skip directly to that section in Path C for an update-only flow. Do not run the path-selection prompt below.
+First, silently create the `profil/` folder if it is missing and copy into it every file of `templates/profil/` that is not already there (`profil.md`, `comportement.md`, `evaluation.md`, `accroches-cv.md`, `star.md`, `observations.md`, `recherche.md`). **Never overwrite a file that already exists in `profil/`** — that is the user's data.
+
+If `$ARGUMENTS` contains `--section <name>`, prepare `profil/` as described below, then skip directly to that section in Path C for an update-only flow, writing only to the matching `profil/` file. Do not run the path-selection prompt.
 
 Otherwise, before greeting the user, scan the `documents/` folder. Use Glob with `documents/**/*` and count files per subfolder (`cv/`, `linkedin/`, `diplomas/`, `references/`, `applications/`).
 
@@ -30,7 +36,7 @@ Then welcome the user with a single message that lists three paths. The wording 
 >
 > Which would you like?
 
-**If `documents/` is empty or missing**, surface Path A as a "do this if you have materials" option:
+**If `documents/` is empty or missing**, surface Path A as a "do this if you have materials" option, and add one plain sentence: the easiest start is to drop their current CV into `documents/cv/` and the PDF export of their LinkedIn profile into `documents/linkedin/` (on LinkedIn: *Plus* → *Enregistrer au format PDF*); offer to help them put the files in the right place (they can also just drag the files into this conversation and you save them there):
 
 > **Welcome to the AI Job Search setup!**
 >
@@ -52,7 +58,7 @@ Wait for the user's choice. If they pick A but the folder is still empty, tell t
 
 ## Path A: Documents Folder
 
-Reads structured documents in `documents/`, cross-references them for consistency, and merges extracted data into the seven profile skill files. Read-before-write and idempotent: changes already present will not be proposed again.
+Reads structured documents in `documents/`, cross-references them for consistency, and merges extracted data into the profile files in `profil/`. Read-before-write and idempotent: changes already present will not be proposed again.
 
 Follow these steps **exactly in order**.
 
@@ -78,13 +84,14 @@ If every subfolder is empty, stop and tell the user to populate the folder. Poin
 
 Read these in parallel before extracting anything. You must know what is already there to make the merge intelligent.
 
-- `.claude/skills/job-application-assistant/01-candidate-profile.md`
-- `.claude/skills/job-application-assistant/02-behavioral-profile.md`
-- `.claude/skills/job-application-assistant/03-writing-style.md`
-- `.claude/skills/job-application-assistant/04-job-evaluation.md`
-- `.claude/skills/job-application-assistant/05-cv-templates.md`
-- `.claude/skills/job-application-assistant/06-cover-letter-templates.md`
-- `.claude/skills/job-application-assistant/07-interview-prep.md`
+- `profil/profil.md` (header + identity, education, experience, skills, references, motivations)
+- `profil/comportement.md` (behavioral profile)
+- `profil/evaluation.md` (personal inputs to the scoring framework)
+- `profil/accroches-cv.md` (CV profile statements)
+- `profil/star.md` (STAR examples and candidates)
+- `profil/observations.md` (patterns from past applications)
+
+Also read the engine rules these files feed (read-only, never edit them): `.claude/skills/job-application-assistant/03-writing-style.md`, `04-job-evaluation.md`, `05-cv-templates.md`, `06-cover-letter-templates.md`, `07-interview-prep.md`.
 
 Hold this content in context throughout Path A. Do not re-read.
 
@@ -138,18 +145,18 @@ If no inconsistencies, state "No cross-reference issues found." and continue.
 
 For each skill file, compare extracted document content against the current file content from Step A2. Build two buckets.
 
-**Additive changes:** entirely new content not in the skill file in any form. Examples: a certification not in `01-candidate-profile.md`, a new endorsement skill, a referee not yet listed, a new behavioral quote from a reference letter, a new award.
+**Additive changes:** entirely new content not in the skill file in any form. Examples: a certification not in `profil/profil.md`, a new endorsement skill, a referee not yet listed, a new behavioral quote from a reference letter, a new award.
 
 **Conflicting changes:** content that touches something already in a skill file but disagrees. Examples: a different date range for an existing job, a different job title for the same role, a different graduation date than what is recorded.
 
 **Inference rules** (apply when populating from inferred sources):
 
-- **`02-behavioral-profile.md`:** Source is LinkedIn About + recommendation letters. Extract recurring themes, adjectives, phrases about how the candidate works. Add only to "Strongest Behavioral Traits", "How [Candidate] Works Best", or "Management Style Preferences" sections. Do not overwrite existing scored assessments. Always label inferred additions: *[Inferred from LinkedIn About / Reference letter - review before relying on this]*
-- **`03-writing-style.md`:** Source is `cover_letter.tex` files. Extract recurring patterns. Add as observations under "## Patterns Observed in Past Applications". Do not modify existing rules. Only add if 2+ cover letters show a genuine pattern.
-- **`04-job-evaluation.md`:** Source is `job_posting.md` + `outcome.md` pairs. If an application reached interview or offer: note role type and sector as a confirmed strong-fit signal. If 2+ applications repeat a no-response or rejection pattern: note it. Add findings under "## Calibration from Past Applications". Do not modify the existing scoring framework.
-- **`05-cv-templates.md`:** Source is `cv_draft.tex` files. Extract any profile statement that does not already appear in templates. Label with: *[Used for: <company>_<role>]*
-- **`06-cover-letter-templates.md`:** Source is `cover_letter.tex` files. Extract opening patterns, bullet structures, closing formulations. Add only what is structurally distinct from existing templates.
-- **`07-interview-prep.md`:** Source is CV bullets, LinkedIn descriptions, reference letter quotes. Identify achievements not yet covered by an existing STAR example. Do NOT draft full STAR examples. Add stubs under "## STAR Candidates (Complete Manually)":
+- **`profil/comportement.md`:** Source is LinkedIn About + recommendation letters. Extract recurring themes, adjectives, phrases about how the candidate works. Add only to the "Strongest Behaviors", "How You Work Best", or "Management Style Preferences" sections. Do not overwrite existing scored assessments. Always label inferred additions: *[Inferred from LinkedIn About / Reference letter - review before relying on this]*
+- **`profil/observations.md` (style):** Source is `cover_letter.tex` files. Extract recurring patterns. Add as observations under "## Patterns Observed in Past Applications". Never modify `03-writing-style.md` itself. Only add if 2+ cover letters show a genuine pattern.
+- **`profil/evaluation.md`:** Source is `job_posting.md` + `outcome.md` pairs. If an application reached interview or offer: note role type and sector as a confirmed strong-fit signal. If 2+ applications repeat a no-response or rejection pattern: note it. Add findings under "## Calibration from Past Applications". Never modify the scoring framework in `04-job-evaluation.md`.
+- **`profil/accroches-cv.md`:** Source is `cv_draft.tex` files. Extract any profile statement that does not already appear there. Label with: *[Used for: <company>_<role>]*
+- **`profil/observations.md` (cover letters):** Source is `cover_letter.tex` files. Extract opening patterns, bullet structures, closing formulations, under "## Cover Letter Patterns". Add only what is structurally distinct from `06-cover-letter-templates.md`.
+- **`profil/star.md`:** Source is CV bullets, LinkedIn descriptions, reference letter quotes. Identify achievements not yet covered by an existing STAR example. Do NOT draft full STAR examples. Add stubs under "## STAR Candidates (Complete Manually)":
 
 ```markdown
 ### [Achievement title]
@@ -172,12 +179,12 @@ Present the full change set before writing anything.
 ```
 ## Proposed Additive Changes
 
-### 01-candidate-profile.md
+### profil/profil.md
 - [ ] New certification: [title], [issuer], [date] - extracted from LinkedIn
 - [ ] New reference: [name, title, company]
   Quote: "[relevant quote]"
 
-### 02-behavioral-profile.md
+### profil/comportement.md
 - [ ] New behavioral observation [labeled as inference]: "[phrase]"
 
 [and so on per file]
@@ -195,7 +202,7 @@ Wait for the response. Apply only the confirmed items.
 ```
 ## Conflict 1 of [N]: Job title - [COMPANY]
 
-**Current in 01-candidate-profile.md:**
+**Current in profil/profil.md:**
 [TITLE_A] - [COMPANY] ([START]-[END])
 
 **Proposed (from LinkedIn export):**
@@ -219,10 +226,11 @@ Documents cover skills, experience, education, references, and behavioral signal
 - What excites the user in their next role
 - Deal-breakers and must-haves
 - Salary expectations / baseline (optional)
+- CV length (see `cv_pages` in Step 3)
 - Commute or location constraints (if not visible from CV)
 - Job search configuration (use the questions from Path C Section 9 below)
 
-Then proceed to Step 3 to populate the non-skill files (`CLAUDE.md`, `cv/main_example.tex`, `.claude/skills/job-scraper/search-queries.md`). Step 3 will detect that the seven skill files are already populated and skip those substeps.
+Then proceed to Step 3 to fill the profile header, the base CV (`profil/cv_base.tex`) and the search strategy (`profil/recherche.md`). Step 3 will detect which `profil/` files Path A already populated and skip those substeps.
 
 ---
 
@@ -297,6 +305,7 @@ If not, ask behavioral questions:
 - What excites you in work
 - Deal-breakers and must-haves
 - Salary expectations/baseline (optional)
+- **CV length:** ask how long their CV should be. Default to **1 page** for under ~10 years of experience or non-executive roles (the French norm), **2 pages** otherwise. Store it as `cv_pages`.
 - What environments to avoid
 - Commute/location constraints
 
@@ -326,36 +335,36 @@ This proactive suggestion step helps users discover career paths they might not 
 
 ## Step 3: Generate Profile Files
 
-Once data collection is complete, generate or finish populating the following files. **For Path A**, the seven skill files are already populated by Step A7; check each before writing and skip if its content is no longer placeholder text.
+Once data collection is complete, generate or finish populating the following files, all under `profil/`. **For Path A**, some files are already populated by Step A7; check each before writing and skip what is no longer placeholder text. Never edit tracked engine files.
 
-### 1. Update `CLAUDE.md`
-Replace all `[PLACEHOLDER]` tokens with the user's actual information. Keep the structure, workflow, and verification checklist intact.
+### 1. Fill the header of `profil/profil.md`
+Fill every field of the front matter (between the `---` lines). Keep the format exactly: one `cle: valeur` per line, lists as `[a, b]` with no comma inside an item, `null` when unknown.
+- `nom`, `email`, `telephone`, `ville`, `pays`; `linkedin`, `site`, `github` only if they have one (otherwise leave `""`)
+- `langues`, `statut`, `metiers_vises` (the 3-8 role titles from Section 9)
+- `rayon_km` (commute radius), `teletravail` (`non`, `hybride`, `total` or `indifferent`)
+- `salaire_plancher_brut_annuel` (an integer in euros, or `null` if they prefer not to say)
+- `criteres_eliminatoires` (short phrases), `cv_pages` (1 or 2)
 
-### 2. Populate `01-candidate-profile.md` *(Path B and C; skip if Path A populated it)*
-Write the full candidate profile with structured sections: Identity, Education, Professional Experience, Independent Projects, Technical Skills, Publications, Awards, References.
+### 2. Fill the prose of `profil/profil.md` *(Path B and C; skip if Path A populated it)*
+Identity, education, professional experience, independent projects, skills, certifications, publications, awards, references, what excites them, target sectors, deal-breakers.
 
-### 3. Populate `02-behavioral-profile.md` *(Path B and C; skip if Path A populated it)*
+### 3. Populate `profil/comportement.md` *(Path B and C; skip if Path A populated it)*
 Write the behavioral profile based on assessment results or synthesized answers.
 
-### 4. Update `04-job-evaluation.md` *(Path B and C; skip if Path A populated it)*
-Replace skill match areas with the user's actual skills:
-- Strong match areas: [their primary skills]
-- Moderate match areas: [their secondary skills]
-- Weak match areas: [skills they lack]
+### 4. Populate `profil/evaluation.md` *(Path B and C; skip if Path A populated it)*
+Strong / moderate / weak skill areas, experience areas, career goals, energizing and draining tasks, life situation.
 
-Update career goals and motivation filters with their actual preferences.
+### 5. Populate `profil/accroches-cv.md` *(Path B and C; skip if Path A populated it)*
+2-3 role-specific profile statement templates based on their background.
 
-### 5. Update `05-cv-templates.md` *(Path B and C; skip if Path A populated it)*
-Add role-specific profile statement templates based on their background.
-
-### 6. Update `07-interview-prep.md` *(Path B and C; skip if Path A populated it)*
+### 6. Populate `profil/star.md` *(Path B and C; skip if Path A populated it)*
 Create STAR examples from their actual experience (at least 3-4 examples). Path A leaves STAR stubs under "## STAR Candidates (Complete Manually)" rather than full examples; if any stubs are present, mention them in Step 4 so the user knows to flesh them out.
 
-### 7. Update `cv/main_example.tex`
-Replace placeholder personal data with their actual name, contact info, and add their education and most recent experience entries.
+### 7. Create `profil/cv_base.tex`
+Copy `cv/main_example.tex` to `profil/cv_base.tex` (never edit `cv/main_example.tex` itself) and fill it with their actual name, contact info, education and experience entries. Leave out the GitHub link from `\extrainfo{...}` when `github` is empty, and the LinkedIn link when `linkedin` is empty.
 
-### 8. Generate `.claude/skills/job-scraper/search-queries.md`
-Replace all placeholder tokens in the search queries file with the user's actual information from Section 9 (or the equivalent follow-up questions in Path A's Step A7):
+### 8. Fill `profil/recherche.md`
+Replace all placeholder tokens in the search strategy with the user's information from Section 9 (or the equivalent follow-up questions in Path A's Step A7):
 - Replace `[YOUR_PRIMARY_ROLE_TYPE]`, `[YOUR_PRIMARY_JOB_TITLE]`, etc. with actual role titles
 - Replace `[YOUR_KEY_SKILL]`, `[YOUR_DOMAIN_KEYWORD_1]`, etc. with actual skills and domain terms
 - Replace `[YOUR_CITY]`, `[YOUR_COUNTRY]`, `[YOUR_REGION]` with actual location
@@ -368,35 +377,31 @@ Replace all placeholder tokens in the search queries file with the user's actual
 
 ---
 
-## Step 4: Confirm & Next Steps
+## Step 4: Validate, Confirm & Next Steps
 
-Present a summary:
+Run `python3 tools/profil.py valider profil/profil.md`. If it lists missing or invalid fields, ask the user **only** for those (in plain French, one short question each), fix the header, and run it again until it prints « Profil complet. ». Do not declare setup complete before that.
 
-> **Setup complete!** Here's what was generated:
+Then present a short summary in French, for example:
+
+> **C'est prêt !** Ton profil est enregistré sur ton ordinateur, dans le dossier `profil/` (il ne part nulle part ailleurs) :
 >
-> - `CLAUDE.md` - Your full candidate profile
-> - `.claude/skills/job-application-assistant/01-candidate-profile.md` - Structured profile
-> - `.claude/skills/job-application-assistant/02-behavioral-profile.md` - Behavioral assessment
-> - `.claude/skills/job-application-assistant/04-job-evaluation.md` - Personalized evaluation framework
-> - `.claude/skills/job-application-assistant/05-cv-templates.md` - CV templates with your profile statements
-> - `.claude/skills/job-application-assistant/07-interview-prep.md` - STAR examples from your experience
-> - `cv/main_example.tex` - Your LaTeX CV template
-> - `.claude/skills/job-scraper/search-queries.md` - Job search queries for `/scrape`
+> - ton profil et tes critères (métiers visés, rayon, télétravail, salaire, critères éliminatoires)
+> - ton profil comportemental et tes exemples d'entretien (méthode STAR)
+> - ton CV de base, d'où partiront tous tes CV adaptés ([cv_pages] page(s))
+> - ta stratégie de recherche d'offres
 >
-> **Try it out:**
-> - Run `/scrape` to search for matching jobs right now
-> - Run `/apply` with a job posting URL to see the full application workflow
-> - Run `/setup --section search` later to update your search queries as your priorities evolve
+> **Pour la suite :**
+> - tape `/scrape` pour chercher des offres maintenant
+> - colle le lien d'une offre avec `/apply` pour l'analyser et préparer CV + lettre
+> - `/setup --section search` permet plus tard d'ajuster ta recherche
 
-If Path A left any STAR stubs in `07-interview-prep.md`, also note:
-
-> Path A flagged [N] STAR candidate stubs in `07-interview-prep.md` that need your situation/task/action/result details before you use them in interviews.
+If Path A left any STAR stubs in `profil/star.md`, also say that [N] interview examples need their details completed before being used.
 
 ---
 
 ## Design Principles
 
-- Three onboarding paths converge on the same skill files. Step 0 picks the right path based on what's in `documents/`. Steps 3 and 4 are shared.
+- Three onboarding paths converge on the same `profil/` files. Step 0 picks the right path based on what's in `documents/`. Steps 3 and 4 are shared.
 - Path A is read-before-write and idempotent. Re-running it as documents are added does not duplicate or overwrite existing content; conflicts are surfaced for explicit resolution.
 - Path A labels inferred behavioral or style additions so the user can review them critically before relying on them.
 - Each section in Path C is a natural conversation, not a form. The user can skip optional sections.
