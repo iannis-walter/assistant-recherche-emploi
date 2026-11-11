@@ -49,6 +49,18 @@ class CompilerTests(unittest.TestCase):
         self.assertEqual(self.compile("cover_letters/cover_x.tex").returncode, 0)
         self.assertTrue(self.journal.read_text(encoding="utf-8").startswith("xelatex "))
 
+    def test_finds_tinytex_when_not_on_path(self):
+        home = Path(self._tmp.name) / "home"
+        tinytex = home / "Library" / "TinyTeX" / "bin" / "universal-darwin"
+        tinytex.mkdir(parents=True)
+        shutil.move(str(self.bin / "lualatex"), str(tinytex / "lualatex"))
+        (self.kit / "cv" / "main_x.tex").write_text("x", encoding="utf-8")
+        env = dict(os.environ, PATH="/usr/bin:/bin", HOME=str(home), JOURNAL=str(self.journal))
+        result = subprocess.run(["bash", str(self.kit / "tools" / "compiler.sh"), "cv/main_x.tex"],
+                                cwd=self.kit, capture_output=True, text=True, env=env)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue(self.journal.read_text(encoding="utf-8").startswith("lualatex "))
+
     def test_refuses_files_elsewhere(self):
         (self.kit / "autre.tex").write_text("x", encoding="utf-8")
         self.assertEqual(self.compile("autre.tex").returncode, 1)

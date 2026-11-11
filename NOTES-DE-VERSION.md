@@ -4,6 +4,9 @@
      en français simple, écrites pour la personne qui utilise le kit (pas de jargon).
      /mise-a-jour affiche les sections plus récentes que la version installée. -->
 
+## 1.0.2 — 2026-11-11
+La fabrication des CV et lettres en PDF marche maintenant dès la première conversation après l'installation, sans avoir à quitter l'app Claude.
+
 ## 1.0.1 — 2026-11-11
 Installation plus claire : si la fenêtre Apple des outils s'ouvre cachée derrière Claude, le guide explique où la retrouver (l'icône du Dock).
 

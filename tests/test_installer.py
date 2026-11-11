@@ -88,10 +88,24 @@ class InstallerTests(unittest.TestCase):
     def test_chemins_appends_once(self):
         self.assertEqual(self.run_installer("chemins").returncode, 0)
         self.assertEqual(self.run_installer("chemins").returncode, 0)
-        content = (self.home / ".zprofile").read_text(encoding="utf-8")
-        self.assertEqual(content.count(MARKER), 1)
-        self.assertIn(".bun/bin", content)
-        self.assertIn("Library/TinyTeX/bin/universal-darwin", content)
+        # .zprofile is read once when the Claude app starts; .zshrc before every command
+        # (VM test, 2026-11-11: an app opened before the install never saw .zprofile).
+        for name in (".zprofile", ".zshrc"):
+            content = (self.home / name).read_text(encoding="utf-8")
+            self.assertEqual(content.count(MARKER), 1, name)
+            self.assertIn(".bun/bin", content)
+            self.assertIn("Library/TinyTeX/bin/universal-darwin", content)
+
+    def test_chemins_only_in_zprofile_is_repaired(self):
+        (self.home / ".zprofile").write_text(f"{MARKER}\nexport PATH=x\n", encoding="utf-8")
+        (self.home / ".zshrc").write_text('export PATH="$HOME/.bun/bin:$PATH"\n', encoding="utf-8")
+        self.assertIn("chemins=manquant", self.run_installer("etat").stdout)
+        self.assertEqual(self.run_installer("chemins").returncode, 0)
+        self.assertIn("chemins=ok", self.run_installer("etat").stdout)
+        self.assertEqual((self.home / ".zprofile").read_text(encoding="utf-8").count(MARKER), 1)
+        zshrc = (self.home / ".zshrc").read_text(encoding="utf-8")
+        self.assertEqual(zshrc.count(MARKER), 1)
+        self.assertTrue(zshrc.startswith('export PATH="$HOME/.bun/bin'), "existing lines are kept")
 
     def test_unknown_step_is_an_error(self):
         result = self.run_installer("n-importe-quoi")

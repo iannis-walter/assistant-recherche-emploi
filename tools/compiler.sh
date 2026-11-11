@@ -11,6 +11,8 @@ set -euo pipefail
 RACINE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 FICHIER="${1:-}"
 dire() { printf '%s\n' "$*" >&2; }
+# Find TinyTeX even when the shell's PATH does not list it yet (app opened before the install).
+export PATH="$PATH:$HOME/Library/TinyTeX/bin/universal-darwin:${KIT_MACTEX_BIN:-/Library/TeX/texbin}"
 
 case "$FICHIER" in
   cv/*.tex) MOTEUR=lualatex ;;

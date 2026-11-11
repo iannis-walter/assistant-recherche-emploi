@@ -52,7 +52,14 @@ paquets_tex_ok() {
   n=$(kpsewhich "${FICHIERS_TEX[@]}" 2>/dev/null | grep -c . || true)
   [ "$n" -ge "${#FICHIERS_TEX[@]}" ]
 }
-chemins_ok() { [ -f "$HOME/.zprofile" ] && grep -qF "$MARQUEUR_DEBUT" "$HOME/.zprofile"; }
+# Both files: the Claude app reads ~/.zprofile only when it starts, but its shell
+# reads ~/.zshrc before every command, so an app opened before the install still works.
+FICHIERS_CHEMINS=("$HOME/.zprofile" "$HOME/.zshrc")
+marqueur_present() { [ -f "$1" ] && grep -qF "$MARQUEUR_DEBUT" "$1"; }
+chemins_ok() {
+  local f
+  for f in "${FICHIERS_CHEMINS[@]}"; do marqueur_present "$f" || return 1; done
+}
 portails_ok() {
   local cli
   for cli in "$RACINE"/.agents/skills/*/cli; do
@@ -128,15 +135,20 @@ etape_paquets_tex() {
 
 etape_chemins() {
   if chemins_ok; then dire "Raccourcis vers les outils : déjà en place."; return 0; fi
-  if [ "$SIM" = 1 ]; then
-    printf 'EXEC: ajout des raccourcis Bun et TinyTeX dans %s\n' "$HOME/.zprofile"
-    return 0
-  fi
-  {
-    printf '\n%s\n' "$MARQUEUR_DEBUT"
-    printf 'export PATH="$HOME/.bun/bin:$HOME/Library/TinyTeX/bin/universal-darwin:$PATH"\n'
-    printf '%s\n' "$MARQUEUR_FIN"
-  } >> "$HOME/.zprofile"
+  local f
+  for f in "${FICHIERS_CHEMINS[@]}"; do
+    marqueur_present "$f" && continue
+    if [ "$SIM" = 1 ]; then
+      printf 'EXEC: ajout des raccourcis Bun et TinyTeX dans %s\n' "$f"
+      continue
+    fi
+    {
+      printf '\n%s\n' "$MARQUEUR_DEBUT"
+      printf 'export PATH="$HOME/.bun/bin:$HOME/Library/TinyTeX/bin/universal-darwin:$PATH"\n'
+      printf '%s\n' "$MARQUEUR_FIN"
+    } >> "$f"
+  done
+  [ "$SIM" = 1 ] && return 0
   dire "Raccourcis vers les outils ajoutés (ils marcheront dans les prochaines conversations)."
 }
 

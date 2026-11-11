@@ -59,5 +59,6 @@ Points à surveiller en particulier (repérés en revue) :
 
 ## 6. Résilience
 
-- [ ] Renomme `~/.zprofile` (par exemple en `~/.zprofile.bak`), ouvre une nouvelle conversation et tape `/diagnostic` : les outils sont signalés « installés mais pas encore accessibles » et Claude propose de recréer les raccourcis.
+- [ ] Renomme `~/.zprofile` et `~/.zshrc` (par exemple en `.bak`), quitte puis rouvre l'app Claude, et tape `/diagnostic` : les outils sont signalés « installés mais pas encore accessibles » et Claude propose de recréer les raccourcis.
+- [ ] Après une installation faite **sans quitter l'app Claude**, une nouvelle conversation trouve l'outil PDF (`/apply` compile sans « réparation »).
 - [ ] Supprime `profil/profil.md` puis lance `/scrape` : Claude explique en une phrase que le profil manque et propose `/setup`, sans erreur brute.
