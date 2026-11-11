@@ -1,0 +1,20 @@
+{
+  "name": "france-travail-cli",
+  "version": "1.0.0",
+  "description": "CLI for the official France Travail (ex-Pôle Emploi) \"Offres d'emploi v2\" API — OAuth2 client_credentials, zero runtime dependencies. Free credentials from francetravail.io required.",
+  "type": "module",
+  "main": "src/cli.ts",
+  "bin": {
+    "france-travail-search": "src/cli.ts"
+  },
+  "scripts": {
+    "start": "bun run src/cli.ts",
+    "test": "bun test --timeout 30000",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/bun": "latest"
+  }
+}

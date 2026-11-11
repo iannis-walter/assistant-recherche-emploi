@@ -1,0 +1,20 @@
+{
+  "name": "apec-cli",
+  "version": "1.0.0",
+  "description": "CLI for searching executive/cadre jobs on APEC (apec.fr) via its public JSON webservices — no authentication, zero runtime dependencies. Personal use only (APEC CGU).",
+  "type": "module",
+  "main": "src/cli.ts",
+  "bin": {
+    "apec-search": "src/cli.ts"
+  },
+  "scripts": {
+    "start": "bun run src/cli.ts",
+    "test": "bun test --timeout 30000",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/bun": "latest"
+  }
+}
