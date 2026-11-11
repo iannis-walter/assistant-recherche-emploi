@@ -94,6 +94,24 @@ class KitStructureTests(unittest.TestCase):
             offenders += [f"{rel}: {b}" for b in banned if b in text]
         self.assertEqual(offenders, [])
 
+    def test_cv_length_comes_from_profile(self):
+        hardcoded = ("keep to 2 pages", "exactly 2 pages", "must be exactly 2",
+                     "hard 2-page limit", "any page count other than 2")
+        for rel in (".claude/commands/apply.md",
+                    ".claude/skills/job-application-assistant/05-cv-templates.md"):
+            text = read(rel)
+            for phrase in hardcoded:
+                self.assertNotIn(phrase, text.lower(), f"{rel}: {phrase}")
+            self.assertIn("cv_pages", text, rel)
+
+    def test_no_developer_only_rules_left(self):
+        for rel in tracked_files():
+            if not rel.startswith(".claude/"):
+                continue
+            text = read(rel)
+            self.assertNotIn("**Claude Code** by name", text, rel)
+            self.assertNotIn("Always in **English**", text, rel)
+
     def test_commencer_ici_mentions_essentials(self):
         text = read("COMMENCER-ICI.md")
         for needle in (

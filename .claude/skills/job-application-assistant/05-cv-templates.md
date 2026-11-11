@@ -16,7 +16,7 @@ All CVs use the moderncv LaTeX package with the "banking" style and "blue" color
 cd cv && lualatex -interaction=nonstopmode main_<company>.tex
 ```
 
-Expected output: `Output written on main_<company>.pdf (2 pages, ...)`. Any page count other than 2 is a failure that must be fixed before presenting to the user.
+Expected output: `Output written on main_<company>.pdf (N pages, ...)` where N is `cv_pages` (from the header of `profil/profil.md`: 1 or 2). Any other page count is a failure that must be fixed before presenting to the user.
 
 ## Document Structure
 
@@ -146,7 +146,7 @@ If there is a gap in your employment history:
 After writing the CV and before presenting to the user, always compile and visually inspect the PDF. Iterate until the layout is clean. Workflow:
 
 1. Run `lualatex -interaction=nonstopmode main_<company>.tex`
-2. Check the output page count: must be exactly 2
+2. Check the output page count: must equal `cv_pages` (from the header of `profil/profil.md`: 1 or 2)
 3. Read the PDF via the Read tool and visually inspect both pages
 4. Check for **orphaned entries**: a `\cventry` title line must never sit alone at the bottom of page 1 with its bullets on page 2
 
@@ -186,9 +186,9 @@ What to check in the extraction:
 - **Reading order.** The stock banking style is single-column, so extraction order matches visual order. Custom templates (via `/add-template`) with sidebars or multi-column layouts can interleave unrelated lines; if extraction order is scrambled, the user is trading ATS compatibility for looks and should be told.
 - **Keyword coverage.** Match the posting's required/preferred terms against the extracted text, in the posting's language. Prefer the posting's exact term over a synonym when it is truthfully applicable - ATS matching is often literal. Never add a keyword the profile does not support.
 
-## Page Budget - Hard 2-Page Limit
+## Page Budget - Hard Limit from `cv_pages`
 
-The CV **must** fit on exactly 2 pages when compiled. Use these content limits as a guide:
+The CV **must** fit on exactly `cv_pages` (from the header of `profil/profil.md`: 1 or 2) when compiled. For a **2-page** CV, use these content limits as a guide; for a **1-page** CV, roughly halve them (profile statement 2-3 lines, 4 skills, 3 bullets for the most recent role, 1-2 for the previous one, one line per older role, education on 1-2 lines each, references "available on request"):
 
 | Section | Max budget |
 |---------|-----------|
