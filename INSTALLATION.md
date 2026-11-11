@@ -21,7 +21,7 @@ Regarde le contenu du dossier actuel.
 
 Dis-lui avant la première commande :
 
-> Pendant l'installation, je vais te demander plusieurs fois l'autorisation de lancer des commandes sur ton Mac. C'est normal : clique simplement sur *Autoriser* à chaque fois. Si l'app te demande si tu fais confiance à ce dossier, réponds oui. macOS peut aussi demander si Claude peut accéder au dossier Documents : clique sur *Autoriser*. Et une fenêtre Apple peut proposer d'installer des « outils de ligne de commande » : je t'explique juste après quoi faire. Tout se passe dans ce dossier et dans ton dossier personnel, rien n'est envoyé ailleurs.
+> Pendant l'installation, l'app peut te demander l'autorisation de lancer des commandes sur ton Mac. C'est normal : clique simplement sur *Autoriser* à chaque fois. Si l'app te demande si tu fais confiance à ce dossier, réponds oui. macOS peut aussi demander si Claude peut accéder au dossier Documents : clique sur *Autoriser*. Et une fenêtre Apple peut proposer d'installer des « outils de ligne de commande » : je t'explique juste après quoi faire. Tout se passe dans ce dossier et dans ton dossier personnel, rien n'est envoyé ailleurs.
 
 ## 3. Outils Apple pour développeurs
 
@@ -29,7 +29,7 @@ Lance `xcode-select -p`.
 - S'il réussit, passe à l'étape 4.
 - S'il échoue, **annonce d'abord** :
 
-  > Une fenêtre macOS va s'ouvrir pour proposer d'installer des « outils de ligne de commande pour développeurs ». Clique sur *Installer*, puis accepte la licence. Ça prend environ 5 à 10 minutes : je t'attends et je reprends tout seul ensuite.
+  > Une fenêtre macOS va s'ouvrir pour proposer d'installer des « outils de ligne de commande pour développeurs ». Elle s'ouvre parfois **derrière** cette fenêtre : si tu ne la vois pas, clique sur la nouvelle icône (une flèche bleue) apparue dans le Dock, en bas de l'écran. Clique sur *Installer*, puis accepte la licence. Ça prend environ 5 à 10 minutes : je t'attends et je reprends tout seul ensuite.
 
   Puis lance `xcode-select --install`. Ensuite, vérifie toutes les 30 secondes avec `xcode-select -p`, pendant 30 minutes au maximum, **en arrière-plan** pour que la conversation reste disponible (par exemple : `for i in $(seq 60); do xcode-select -p >/dev/null 2>&1 && exit 0; sleep 30; done; exit 1`). Si elle te pose une question entre-temps, réponds-lui.
   - Si l'installation se termine : dis-le et continue.

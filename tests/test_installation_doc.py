@@ -50,5 +50,18 @@ class BootstrapTests(unittest.TestCase):
             self.assertTrue((user / ".claude" / "settings.local.json").is_file())
 
 
+class AppleWindowAnnouncementTests(unittest.TestCase):
+    """The Apple tools window can open behind Claude: only a Dock icon shows (VM test, 2026-11-11)."""
+
+    def test_installation_tells_where_to_find_a_hidden_apple_window(self):
+        text = (ROOT / "INSTALLATION.md").read_text(encoding="utf-8")
+        section = text[text.index("## 3."):text.index("## 4.")]
+        self.assertIn("Dock", section)
+
+    def test_guide_tells_where_to_find_a_hidden_apple_window(self):
+        text = (ROOT / "COMMENCER-ICI.md").read_text(encoding="utf-8")
+        self.assertIn("Dock", text)
+
+
 if __name__ == "__main__":
     unittest.main()

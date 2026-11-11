@@ -79,7 +79,7 @@ etape_outils_apple() {
     dire "Il manque git ou python3 et ce n'est pas un Mac : installe-les avec le gestionnaire de paquets du système."
     return 1
   fi
-  dire "Une fenêtre macOS va proposer d'installer les outils pour développeurs : clique sur « Installer », puis accepte. Ça prend 5 à 10 minutes."
+  dire "Une fenêtre macOS va proposer d'installer les outils pour développeurs : clique sur « Installer », puis accepte. Ça prend 5 à 10 minutes. Si tu ne la vois pas, clique sur la nouvelle icône apparue dans le Dock."
   executer xcode-select --install || true
   return 3
 }
